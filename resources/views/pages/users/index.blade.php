@@ -49,8 +49,8 @@
                     <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                     <li><a class="nav-link scrollto" href="#featured-services">information</a></li>
                     <li><a class="nav-link scrollto" href="#contact">Kontak Kami</a></li>
-                    <li><a class="nav-link scrollto" href="/registermasyarakat">Register</a></li>
-                    <li><a class="nav-link scrollto" href="/loginmasyarakat">Login</a></li>
+                    <li><a class="nav-link scrollto" href="/register">Register</a></li>
+                    <li><a class="nav-link scrollto" href="/login">Login</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->

@@ -2,113 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\KategoriPengaduan;
 use Illuminate\Http\Request;
 
 class KategoriPengaduanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        // Mengambil semua data kategori dari database
-        $kategoriPengaduan = KategoriPengaduan::all();
-
-        // Mengirim data kategori ke view
-        return view('pages.admin.kategori.index', [
-            'title'        => 'APM | Kategori',
-            'header'       => 'Kategori',
-            'breadcrumb1'  => 'Kategori',
-            'breadcrumb2'  => 'Index',
-            'kategoriPengaduan' => $kategoriPengaduan // Mengirim data kategori
-        ]);
+    //
+    public function index(){
+        $kategoriPengaduan=KategoriPengaduan::paginate(5);
+        return view('pages.admin.kategori.index',compact('kategoriPengaduan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('pages.admin.kategori.create', [
-            'title'        => 'APM | Kategori',
-            'header'       => 'Kategori',
-            'breadcrumb1'  => 'Kategori',
-            'breadcrumb2'  => 'Create'
-        ]);
+    public function create(){
+        $kategoris = KategoriPengaduan::all();
+        return view('pages.admin.kategori.create',compact('kategoris'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $request->validate([
-            'textNamaKategori' => 'required',
-            'textDeskripsi' => 'required'
+            'nama_kategori'  => 'required',
+            'deskripsi'      => 'required',
         ]);
 
-        // Menyimpan data kategori ke dalam database
         KategoriPengaduan::create([
-            'namakategori' => $request->textNamaKategori,
-            'deskripsi' => $request->textDeskripsi
+            'nama_kategori' => $request->nama_kategori,
+            'deskripsi'     => $request->deskripsi,
         ]);
 
-        // Mengalihkan ke halaman kategori setelah data berhasil disimpan
-        return redirect('/kategori');
+        return redirect('kategori')->with('success','kategori berhasil di tambahkan');
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        // Mengambil data kategori berdasarkan ID
-        $kategori = KategoriPengaduan::findOrFail($id);
-
-        return view('pages.admin.kategori.edit', [
-            'title'        => 'APM | Kategori',
-            'header'       => 'Kategori',
-            'breadcrumb1'  => 'Kategori',
-            'breadcrumb2'  => 'Edit',
-            'dataKategoriPengaduan' => kategoriPengaduan::where('id', $id)->first()
-        ]);
+    public function edit($id){
+        $kategoris = KategoriPengaduan::findOrFail($id);
+        return view('pages.admin.kategori.edit',compact('kategoris'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
-            'textNamaKategori' => 'required',
-            'textDeskripsi' => 'required'
+            'nama_kategori'  => 'required',
+            'deskripsi'      => 'required',
         ]);
 
-        // Menemukan kategori berdasarkan ID
+        // Cari kategori berdasarkan id
         $kategori = KategoriPengaduan::findOrFail($id);
 
-        // Memperbarui data kategori
+        // Update data kategori
         $kategori->update([
-            'namakategori' => $request->textNamaKategori,
-            'deskripsi' => $request->textDeskripsi
+            'nama_kategori' => $request->nama_kategori,
+            'deskripsi'     => $request->deskripsi,
         ]);
 
-        // Mengalihkan ke halaman kategori setelah data berhasil diperbarui
-        return redirect('/kategori');
+        return redirect('/kategori')->with('success', 'Kategori berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        // Menghapus kategori berdasarkan ID
         $kategori = KategoriPengaduan::findOrFail($id);
         $kategori->delete();
 
-        // Mengalihkan ke halaman kategori setelah data dihapus
-        return redirect('/kategori');
+        return redirect('kategori')->with('success', 'Kategori berhasil dihapus');
+
     }
+
+
 }

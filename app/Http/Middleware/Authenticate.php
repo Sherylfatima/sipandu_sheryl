@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class Authenticate extends Middleware
 {
@@ -12,21 +14,18 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        // Jika request ini mengharuskan login admin
-        if ($request->is('dashboard') || $request->is('pegawai/*')) {
-            return route('loginadmin');  // Redirect ke login admin
+        return $request->expectsJson() ? null : route('login'); // Redirect ke halaman login
+    }
+
+    /**
+     * Handle an incoming request.
+     */
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if (!$request->expectsJson() && !auth()->check()) {
+            return redirect()->route('login');
         }
 
-        if ($request->is('dashboardpetugas') || $request->is('pegawai/*')) {
-            return route('loginpetugas');  // Redirect ke login admin
-        }
-
-        // Jika request ini mengharuskan login masyarakat
-        if ($request->is('pengaduanku/*') || $request->is('profileuser') || $request->is('laporanmasuk/*')) {
-            return route('loginmasyarakat');  // Redirect to the masyarakat login page
-        }
-
-        // Default redirect for unauthenticated users, adjust as necessary for your app.
-        return route('loginmasyarakat'); // Ensure this points to the masyarakat login page.
+        return parent::handle($request, $next, ...$guards);
     }
 }

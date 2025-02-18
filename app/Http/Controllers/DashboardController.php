@@ -3,41 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\KategoriPengaduan;
-use App\Models\Pengaduan; // Pastikan menggunakan model Pengaduan
+use App\Models\Admin;
+use App\Models\Kategori;
+use App\Models\Pengaduan;
 use Illuminate\Http\Request;
+use App\Models\KategoriPengaduan;
 
 class DashboardController extends Controller
 {
     public function index()
-    {
-        // Mengambil jumlah masyarakat (role 'masyarakat')
-        $jumlahMasyarakat = User::where('role', 'masyarakat')->count();
-        
-        // Mengambil jumlah kategori pengaduan
-        $jumlahKategoriPengaduan = KategoriPengaduan::count();
-        
-        // Mengambil jumlah laporan pengaduan
-        $jumlahLaporanPengaduan = Pengaduan::count();
-        
-        // Mengambil jumlah laporan baru (status = 'baru' atau '0')
-        $jumlahLaporanBaru = Pengaduan::where('status', 'new')->count(); // Misalkan status baru bernilai '0'
-        
-        $pengaduans = Pengaduan::with('kategoripengaduan') // Asumsikan ada relasi dengan kategori
-        ->orderBy('created_at', 'desc')
-        ->get();
+{
+    $jumlahMasyarakat = User::where('role', 'masyarakat')->count();
+    $jumlahKategori = KategoriPengaduan::count();
+    $jumlahLaporan = Pengaduan::count();
+    $jumlahLaporanBaru = Pengaduan::where('status', '0')->count();
+    $jumlahLaporanSelesai = Pengaduan::where('status', 'selesai')->count();
 
-        // Mengirim data ke view
-        return view('pages.admin.dashboard.index', [
-            'title'                 => 'APM | Dashboard',
-            'header'                => 'Dashboard',
-            'breadcrumb1'           => 'Dashboard',
-            'breadcrumb2'           => 'Index',
-            'jumlahMasyarakat'      => $jumlahMasyarakat,
-            'jumlahKategoriPengaduan' => $jumlahKategoriPengaduan,
-            'jumlahLaporanPengaduan' => $jumlahLaporanPengaduan,
-            'jumlahLaporanBaru'     => $jumlahLaporanBaru, // Mengirim jumlah laporan baru
-            'pengaduans'            => $pengaduans,
-        ]);
-    }
+    // Ambil data pengaduan dengan pagination
+    $pengaduans = Pengaduan::paginate(3);
+
+    return view('pages.admin.dashboard.index', compact('jumlahMasyarakat', 'jumlahKategori', 'jumlahLaporan', 'jumlahLaporanBaru', 'jumlahLaporanSelesai', 'pengaduans'));
+}
+
+
+public function profil(){
+    $profiles = User::all();
+    return view('pages.admin.profile.index',compact('profiles'));
+}
+
 }

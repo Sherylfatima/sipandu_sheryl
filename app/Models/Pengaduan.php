@@ -1,36 +1,53 @@
 <?php
 
-namespace Models;
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\KategoriPengaduan;
+use App\Models\Tanggapan;
+use App\Models\Masyarakat;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pengaduan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['masyarakat_id', 'kategori_id', 'judul', 'isipengaduan', 'tanggalpengaduan', 'foto', 'status'];
+    protected $table = 'pengaduans';
 
-    protected $table = 'pengaduan';
+    protected $fillable = [
+        'masyarakat_id',
+        'KategoriPengaduan_id',
+        'tanggal_pengaduan',
+        'isi_pengaduan',
+        'foto',
+        'status',
+    ];
 
-    // Nilai Balik Relasi Ke Table KategoriPengaduan
-    public function kategoripengaduan()
+    public function masyarakat()
     {
-        // Pastikan nama model 'KategoriPengaduan' sesuai dengan nama file model
-        return $this->belongsTo(KategoriPengaduan::class, 'kategori_id', 'id');
+        return $this->belongsTo(User::class, 'masyarakat_id');
     }
 
-    // Relasi Ke Tanggapan
+    // Relasi ke model Kategori
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriPengaduan::class, 'kategori_id');
+    }
+
+    // Relasi ke model Tanggapan
+    public function tanggapans()
+    {
+        return $this->hasMany(Tanggapan::class);
+    }
+    public function petugas()
+    {
+        return $this->belongsTo(User::class, 'masyarakat_id');
+    }
     public function tanggapan()
-    {
-        return $this->hasMany(Tanggapan::class, 'pengaduan_id', 'id');
-    }
-    // Model Pengaduan
-public function user()
 {
-    return $this->belongsTo(User::class, 'masyarakat_id', 'id');
+    return $this->hasMany(Tanggapan::class, 'pengaduan_id');
 }
+
 
 }

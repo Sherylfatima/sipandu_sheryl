@@ -9,9 +9,9 @@
          <nav id="navbar" class="navbar">
              <ul>
                  <ul>
-                     <li><a class="nav-link scrollto {{ Request::is('pengaduan*') ? 'active' : '' }}" href="/pengaduanku">Pengaduanku</a></li>
+                     <li><a class="nav-link scrollto {{ Request::is('pengaduanku/*') ? 'active' : '' }}" href="/pengaduanku">Pengaduanku</a></li>
                      <li>
-                         <a class="nav-link scrollto {{ Request::is('profile*') ? 'active' : '' }}" href="{{ route('profile.index') }}" style="margin-right: 15px;">
+                         <a class="nav-link scrollto {{ Request::is('profile*') ? 'active' : '' }}" href="/profileuser" style="margin-right: 15px;">
                              Profile
                          </a>
                      </li>
@@ -19,12 +19,12 @@
 
                      <!-- Signout tanpa button, menggunakan <a> -->
                      <li>
-                         <a class="nav-link scrollto" href="{{ route('logoutmasyarakat') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                         <a class="nav-link scrollto" href="{{ route('logout') }}">
                              Signout
                          </a>
-                         <form id="logout-form" action="{{ route('logoutmasyarakat') }}" method="POST" style="display: none;">
+                         {{-- <form id="logout-form" action="{{ route('logoutmasyarakat') }}" method="POST" style="display: none;">
                              @csrf
-                         </form>
+                         </form> --}}
                      </li>
                  </ul>
 

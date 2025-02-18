@@ -12,16 +12,16 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="/kategori" method="POST">
+                    <form action="/store/kategori" method="POST">
                         @csrf
                     <div class="col-md-6">
                         <div class="form form-group">
-                            <label for="textNamaKategori">Nama Kategori</label>
-                            <input type="text" name="textNamaKategori" id="textNamaKategori" class="form form-control">
+                            <label for="nama_kategori">Nama Kategori</label>
+                            <input type="text" name="nama_kategori" id="nama_kategori" class="form form-control">
                         </div>
                         <div class="form form-group">
-                            <label for="textDeskripsi">Deskripsi</label>
-                            <input type="text" name="textDeskripsi" id="textDeskripsi" class="form form-control">
+                            <label for="deskripsi">Deskripsi</label>
+                            <input type="text" name="deskripsi" id="deskripsi" class="form form-control">
                         </div>
                         <div class="form form-group">
                             <button type="submit" class="btn btn-success btn-md"><li class="fa fa-save"></li> Simpan</button>

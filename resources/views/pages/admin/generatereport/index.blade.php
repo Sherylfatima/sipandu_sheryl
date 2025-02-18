@@ -1,100 +1,79 @@
 @extends('layouts.layoutadmin')
 @section('content')
 <section class="content">
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <div class="container">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            Laporan Periode
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="form form-group">
-                            <label for="selectBulan">
-                                Pilih Bulan
-                            </label>
-                            <select name="selectBulan" id="selectBulan" class="form form-control">
-                                <option value="">-- Pilih Bulan --</option>
-                                <option value="Januari">Januari</option>
-                                <option value="Februari">Februari</option>
-                                <option value="Maret">Maret</option>
-                                <option value="April">April</option>
-                                <option value="Mei">Mei</option>
-                                <option value="Juni">Juni</option>
-                                <option value="Juli">Juli</option>
-                                <option value="Agustus">Agustus</option>
-                                <option value="September">September</option>
-                                <option value="Oktober">Oktober</option>
-                                <option value="November">November</option>
-                                <option value="Desember">Desember</option>
-                            </select>
-                        </div>
-                        <div class="form form-group">
-                            <label for="selectTahun">Pilih Tahun</label>
-                            <select name="selectTahun" id="selectTahun" class="form form-control">
-                                <option value="">-- Pilih Tahun --</option>
-                                <option value="">2022</option>
-                                <option value="">2023</option>
-                            </select>
-                        </div>
-                        <div class="form form-group">
-                            <label for="selectStatus">Pilih Status</label>
-                            <select name="selectStatus" id="selectStatus" class="form form-control">
-                                <option value="">ALL</option>
-                                <option value="">Process</option>
-                                <option value="">Selesai</option>
-                            </select>
-                        </div>
-                        <div class="form form-group">
-                            <a href="/generatereport/periode" class="btn btn-primary btn-lg"><li class="fa fa-print"></li> Cetak </a>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div>
+                <h3 class="p-2">Generate Laporan Pengaduan Masyarakat</h3>
             </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <div class="container">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            Laporan Rekap Periode
+            <div class="card-body">
+                <!-- Filter Form -->
+                <form method="GET" action="">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="start_date">Tanggal Awal</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="end_date">Tanggal Akhir</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Filter</button>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="form form-group">
-                            <label for="selectBulan">
-                                Pilih Bulan
-                            </label>
-                            <select name="selectBulan" id="selectBulan" class="form form-control">
-                                <option value="">-- Pilih Bulan --</option>
-                                <option value="Januari">Januari</option>
-                                <option value="Februari">Februari</option>
-                                <option value="Maret">Maret</option>
-                                <option value="April">April</option>
-                                <option value="Mei">Mei</option>
-                                <option value="Juni">Juni</option>
-                                <option value="Juli">Juli</option>
-                                <option value="Agustus">Agustus</option>
-                                <option value="September">September</option>
-                                <option value="Oktober">Oktober</option>
-                                <option value="November">November</option>
-                                <option value="Desember">Desember</option>
-                            </select>
-                        </div>
-                        <div class="form form-group">
-                            <label for="selectTahun">Pilih Tahun</label>
-                            <select name="selectTahun" id="selectTahun" class="form form-control">
-                                <option value="">-- Pilih Tahun --</option>
-                                <option value="">2022</option>
-                                <option value="">2023</option>
-                            </select>
-                        </div>
-                        <div class="form form-group">
-                            <a href="/generatereport/rekap" class="btn btn-primary btn-lg"><li class="fa fa-print"></li> Cetak </a>
-                        </div>
-                    </div>
+                </form>
+    
+                <!-- Laporan Table -->
+                <div class="mt-4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Pelapor</th>
+                                <th>Tanggal Pengaduan</th>
+                                <th>Kategori</th>
+                                <th>Deskripsi Pengaduan</th>
+                                {{-- <th>nama petugas</th> --}}
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($pengaduans as $pengaduan)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $pengaduan->masyarakat->nama_lengkap }}</td>
+                                    <td>{{ $pengaduan->tanggal_pengaduan }}</td>
+                                    <td>{{ $pengaduan->kategori->nama_kategori }}</td>
+                                    <td>{{ $pengaduan->isi_pengaduan }}</td>
+                                    {{-- <td>{{ $pengaduan->petugas->nama_lengkap }}</td> --}}
+                                    <td><a href="/tambah_tanggapan/{{$pengaduan->id}}">
+                                        <span class="badge
+                                            @if($pengaduan->status == '0') bg-warning
+                                            @elseif($pengaduan->status == 'diproses') bg-info
+                                            @elseif($pengaduan->status == 'selesai') bg-success
+                                            @elseif($pengaduan->status == 'ditolak') bg-danger
+                                            @else bg-secondary
+                                            @endif">
+                                            {{ ucfirst($pengaduan->status) }}
+                                        </span>
+                                    </a></td>
+                                    <td>
+    
+                                        <!-- Print Button -->
+                                        <a href="formulir_laporan/{{ $pengaduan->id}}" target="_blank" class="btn btn-light">
+                                            <i class="fas fa-print"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Tidak ada data pengaduan</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

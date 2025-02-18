@@ -17,14 +17,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
         'nik',
-        'jeniskelamin',
+        'nama_lengkap',
+        'jenis_kelamin',
+        'username',
+        'password',
         'alamat',
+        'no_telepon',
         'role',
-        'notelpon'
     ];
 
     /**
@@ -45,34 +45,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    // Accessor untuk memeriksa apakah user adalah petugas
-    public function getPetugasAttribute()
+    public function tanggapans()
     {
-        return $this->role === 'petugas';
+        return $this->hasMany(Tanggapan::class, );
     }
-
-    // Accessor untuk memeriksa apakah user adalah admin
-    public function getAdminAttribute()
-    {
-        return $this->role === 'admin';
-    }
-
-    // Accessor untuk memeriksa apakah user adalah masyarakat
-    public function getMasyarakatAttribute()
-    {
-        return $this->role === 'masyarakat';
-    }
-
-    // Relasi Ke Table Pengaduan
-    public function pengaduan()
-    {
-        return $this->hasMany('App\Models\Pengaduan', 'masyarakat_id', 'id');
-    }
-
-    // Relasi Ke Table Tanggapan
-    public function tanggapan()
-    {
-        return $this->hasMany('App\Models\Tanggapan', 'users_id', 'id');
+    public function pengaduans(){
+        return $this->hasMany(Pengaduan::class,);
     }
 }

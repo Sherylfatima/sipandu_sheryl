@@ -12,10 +12,10 @@
                 <div class="portfolio-details-slider swiper">
                     <div class="swiper-wrapper align-items-center">
                         <!-- Dynamic Image -->
-                        @if($pengaduan->foto)
-                        <img src="{{ asset('storage'.$pengaduan->foto) }}" alt="Foto Pengaduan" class="img-fluid">
+                        @if ($pengaduan->foto)
+                        <img src="{{ Storage::url($pengaduan->foto) }}" alt="Foto Pengaduan" width="800">
                         @else
-                        <img src="assetsuser/img/portfolio/portfolio-1.jpg" alt="Default Image" class="img-fluid">
+                            Tidak ada foto
                         @endif
                     </div>
                 </div>

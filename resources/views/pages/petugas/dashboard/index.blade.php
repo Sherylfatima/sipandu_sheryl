@@ -4,7 +4,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-6 col-md-3">
+            {{-- <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
                     <div class="info-box-content">
@@ -16,8 +16,8 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
+            </div> --}}
+            {{-- <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                     <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-book"></i></span>
                     <div class="info-box-content">
@@ -29,8 +29,8 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
+            </div> --}}
+            {{-- <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                     <span class="info-box-icon bg-red elevation-1"><i class="fa fa-retweet"></i></span>
 
@@ -43,7 +43,7 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
-            </div>
+            </div> --}}
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                     <span class="info-box-icon bg-green elevation-1"><i class="fa fa-envelope"></i></span>

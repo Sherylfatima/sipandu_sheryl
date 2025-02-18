@@ -12,56 +12,76 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="{{ route('masyarakat.update', $dataMasyarakat->id) }}" method="POST">
+                    <form action="/update_masyarakat/{{$masyarakat->id}}" method="POST">
                         @csrf
-                        @method('PUT')
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form form-group">
-                                <label for="textNik">NIK</label>
-                                <input type="text" name="textNik" id="textNik" class="form form-control"
-                                    placeholder="Contoh : 320717XXXXXXX" value="{{$dataMasyarakat->nik}}">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nik" class="form-label">NIK</label>
+                                <input type="text" value="{{ old('nik', $masyarakat->nik) }}" name="nik" id="nik_masyarakat" class="form-control form-control-lg" placeholder="Masukkan NIK" required>
+                                @error('nik')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
-                            <div class="form form-group">
-                                <label for="textNama">Nama</label>
-                                <input type="text" name="textNama" id="textNama" class="form form-control"
-                                    placeholder="Nama Lengkap" value="{{$dataMasyarakat->name}}">
+                            <div class="col-md-6 mb-3">
+                                <label for="nama_lengkap" class="form-label">Nama</label>
+                                <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control form-control-lg" placeholder="Masukkan Nama" value="{{ old('nama_lengkap', $masyarakat->nama_lengkap) }}" required>
+                                @error('nama_lengkap')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
-                            <div class="form form-group">
-                                <label for="selectJenisKelamin">Jenis Kelamin</label>
-                                <select name="selectJenisKelamin" id="selectJenisKelamin"
-                                    class="form form-control">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                <select name="jenis_kelamin" id="jenis_kelamin" class="form-control form-control-lg" required>
                                     <option value="">-- Pilih Jenis Kelamin --</option>
-                                    <option value="Laki-laki" {{ $dataMasyarakat->jeniskelamin == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki</option>
-                                    <option value="Perempuan" {{ $dataMasyarakat->jeniskelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    <option value="laki-laki" {{ old('jenis_kelamin', $masyarakat->jenis_kelamin) == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value="perempuan" {{ old('jenis_kelamin', $masyarakat->jenis_kelamin) == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
+                                @error('jenis_kelamin')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
-                            <div class="form form-group">
-                                <label for="textNoTelepon">No Telepon</label>
-                                <input type="text" class="form form-control" id="textNoTelepon" name="textNoTelepon" value="{{$dataMasyarakat->notelpon}}">
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form form-group">
-                                <label for="textAlamat">Alamat</label>
-                                <textarea name="textAlamat" id="textAlamat" cols="30" rows="1"
-                                    class="form form-control">{{$dataMasyarakat->alamat}}</textarea>
-                            </div>
-                            <div class="form form-group">
-                                <label for="textEmail">Email</label>
-                                <input type="email" name="textEmail" class="form form-control"
-                                    id="textEmail" value="{{$dataMasyarakat->email}}">
-                            </div>
-                            <div class="form form-group">
-                                <label for="textPassword">Password</label>
-                                <input type="password" name="textPassword" class="form form-control" id="textPassword" placeholder="Kosongkan jika tidak ingin mengubah password">
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" name="username" id="username" class="form-control form-control-lg" placeholder="Masukkan Username" value="{{ old('username', $masyarakat->username) }}" required>
+                                @error('username')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-md-12 col-sm-12">
-                            <button type="submit" class="btn btn-success btn-md float-right"><li class="fa fa-save"></li> Simpan</button>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="Masukkan Password">
+                                <small class="text-muted">Kosongkan jika tidak ingin mengganti password.</small>
+                                @error('password')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="no_telepon_masyarakat" class="form-label">No Telepon</label>
+                                <input type="text" name="no_telepon" id="no_telepon_masyarakat" class="form-control form-control-lg" placeholder="Masukkan No Telepon" value="{{ old('no_telepon', $masyarakat->no_telepon) }}">
+                                @error('no_telepon')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <textarea name="alamat" id="alamat" class="form-control form-control-lg" rows="4" placeholder="Masukkan Alamat">{{ old('alamat', $masyarakat->alamat) }}</textarea>
+                            @error('alamat')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <input type="hidden" name="role" value="masyarakat">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-lg mt-3 w-100" style="background-color: #00a64e;">Simpan</button>
+                        </div>
+                       </form>
+    
                 </div>
                 <!-- /.card-body -->
             </div>
