@@ -7,7 +7,7 @@
         <hr>
         
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <!-- Menampilkan pesan sukses atau error -->
                 @if (session('success'))
                     <div class="alert alert-success">
@@ -35,13 +35,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                        @php $no = 1; @endphp
                         @foreach ($pengaduans as $index => $pengaduan)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $pengaduan->masyarakat->nama_lengkap ?? 'Tidak Ada Data' }}</td>
                                 <td>{{ $pengaduan->kategori->nama_kategori ?? 'Tidak Ada Data' }}</td>
-                                <td>{{ $pengaduan->tanggal_pengaduan }}</td>
+                                <td>{{ $tanggapans->first()->tanggal_tanggapan ?? 'Belum ada tanggapan' }}</td>
                                 <td>{{ $pengaduan->isi_pengaduan }}</td>
 
                                 <td>

@@ -109,7 +109,7 @@
                             <td>
                             @if(in_array($pengaduan->status, ['selesai', 'ditolak']))
                                 @if($pengaduan->status == 'ditolak' && auth()->user()->role == 'admin')
-                                    <a href="/tanggapan_admin/{{$pengaduan->id}}">
+                                    <a href="{{ route('tanggapan_admin', ['id' => $pengaduan->id]) }}">
                                         <span class="badge bg-danger">
                                             {{ ucfirst($pengaduan->status) }}
                                         </span>
@@ -120,14 +120,14 @@
                                     </span>
                                 @endif
                             @elseif($pengaduan->status == 'diproses' && auth()->user()->role == 'admin')
-                                <a href="/tanggapan_admin/{{$pengaduan->id}}">
+                                <a href="{{ route('tanggapan_admin', ['id' => $pengaduan->id]) }}">
                                     <span class="badge bg-warning">
                                         {{ ucfirst($pengaduan->status) }}
                                     </span>
                                 </a>
                             @else
                                 {{-- Default status tanpa respons --}}
-                                <a href="/tanggapan_admin/{{$pengaduan->id}}">
+                                <a href="{{ route('tanggapan_admin', ['id' => $pengaduan->id]) }}">
                                     <span class="badge bg-warning">
                                         belum ada respon
                                     </span>

@@ -162,15 +162,14 @@ public function data()
 
 
 
-    public function data_tanggapan($id)
-    {
-        $pengaduans = Pengaduan::findOrFail($id);
+public function data_tanggapan($id)
+{
+    $pengaduans = Pengaduan::where('id', $id)->get(); // Mengambil semua data sebagai koleksi
+    $tanggapans = Tanggapan::where('pengaduan_id', $id)->get(); // Ambil tanggapan berdasarkan pengaduan_id
 
-        // Ambil tanggapan berdasarkan pengaduan_id yang sesuai
-        $tanggapans = Tanggapan::where('pengaduan_id', $id)->get();
+    return view('pages.users.pengaduanku.data_tanggapan', compact('pengaduans', 'tanggapans'));
+}
 
-        return view('pages.users.pengaduanku.data_tanggapan', compact('pengaduans', 'tanggapans'));
-    }
 
 
 }
