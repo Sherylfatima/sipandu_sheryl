@@ -211,43 +211,49 @@ public function tanggapan()
 
 
 
+public function createtanggapan($id)
+{
+    $pengaduan = Pengaduan::findOrFail($id);
+    return view('pages.admin.tanggapan.create', compact('pengaduan'));
+}
 
-    public function createtanggapan($id)
-    {
-        $pengaduan = Pengaduan::findOrFail($id);
-
-        return view('pagesadmin.tanggapan.tambah_tanggapan', compact('pengaduan'));
+public function updateTanggapan(Request $request, $id)
+{
+    // Pastikan user login
+    if (!auth()->check()) {
+        return redirect()->back()->with('error', 'Anda harus login sebagai petugas untuk memberikan tanggapan.');
     }
 
+    // Validasi input
+    $request->validate([
+        'isi_tanggapan' => 'required|string',
+        'status' => 'required|in:ditolak,0,diproses,selesai',
+    ]);
+
+    // Cari pengaduan berdasarkan ID
+    $pengaduan = Pengaduan::findOrFail($id);
+
+    // Pastikan `petugas_id` selalu memiliki nilai
+    $petugasId = auth()->user()->id ?? 1; // Ganti 1 dengan ID petugas default jika diperlukan
+
+    // Tambahkan atau perbarui tanggapan
+    $tanggapan = Tanggapan::updateOrCreate(
+        ['pengaduan_id' => $pengaduan->id],
+        [
+            'tanggal_tanggapan' => now(),
+            'tanggapan' => $request->isi_tanggapan,
+            'petugas_id' => $petugasId,
+        ]
+    );
+
+    // Perbarui status pengaduan
+    $pengaduan->status = $request->status;
+    $pengaduan->save();
+
+    return redirect('data_tanggapan')->with('success', 'Tanggapan dan status pengaduan berhasil diperbarui.');
+}
 
 
-    public function updateTanggapan(Request $request, $id)
-    {
-        // Validasi input
-        $request->validate([
-            'isi_tanggapan' => 'required|string',
-            'status' => 'required|in:ditolak,0,diproses,selesai',
-        ]);
-
-        // Cari pengaduan berdasarkan ID
-        $pengaduan = Pengaduan::findOrFail($id);
-
-        // Tambahkan atau perbarui tanggapan
-        $tanggapan = Tanggapan::updateOrCreate(
-            ['pengaduan_id' => $pengaduan->id],
-            [
-                'tanggal_tanggapan' => now(),
-                'tanggapan' => $request->isi_tanggapan,
-                'petugas_id' => auth()->user()->id,
-            ]
-        );
-
-        // Perbarui status pengaduan
-        $pengaduan->status = $request->status;
-        $pengaduan->save();
-
-        return redirect('data_tanggapan')->with('success', 'Tanggapan dan status pengaduan berhasil diperbarui.');
-    }
 
 
     public function editing($id){

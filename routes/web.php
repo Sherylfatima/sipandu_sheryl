@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/store/masyarakat',[MasyarakatController::class,'store']);
     Route::get('/edit_masyarakat/{id}',[MasyarakatController::class,'edit']);
     Route::post('/update_masyarakat/{id}', [MasyarakatController::class, 'update']);
-    Route::get('tanggapan_admin',[MasyarakatController::class,'data_pengaduan']);
+    Route::get('tanggapan_admin/{id}', [MasyarakatController::class, 'data_tanggapan'])->name('tanggapan_admin');
     Route::delete('/destroy_masyarakat/{id}', [MasyarakatController::class, 'destroy'])->name('masyarakat.destroy');
     Route::get('pengaduanku',[MasyarakatController::class,'data_tanggapan']);
 
